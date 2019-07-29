@@ -1,7 +1,7 @@
 function [data] = PowerWorld_WriteDYD_Run_RealPMU(filenamedyd,genrou,exac8b,pss2a,SimAuto,filename_RunAux,filename_PlayInCase)
 %PowerWorld_WriteDYD This function uses a series of other functions to write a
 %PSLF dyd file which is later used by a PowerWorld simulation which is ran by
-%using the SimAuto Add-on
+%using the SimAuto Add-on. An aux file is written to 
 
 %% Open dyd File
 fileID=fopen(filenamedyd,'w+');    %Open/create file for reading and writing.

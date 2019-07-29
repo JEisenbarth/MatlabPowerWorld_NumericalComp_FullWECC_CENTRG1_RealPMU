@@ -1,11 +1,7 @@
-% Jacob Eisenbarth, May 2019
-% This script will be used to run multiple different PSLF cases within
-% Matlab. First, the script writes a PSLF .dyd file from Matlab using a
-% series of functions. Next,it will start an EPCL code which will create a
-% channel file. Finally, the channel file will be read in then
-% stored as a structure which can be saved as a .mat file. Included into this
-% code is the addition of changing individual parameters to MINIMIZE THE COST
-% Function then continuing the simulation in PSLF.
+% Jacob Eisenbarth, July 2019
+% This script will be used to run multiple different PowerWorld cases within
+% Matlab. First, the script writes a  .dyd file from Matlab using a
+% series of functions. NEED to finish Description.....
 
 %% Initialize Matlab
 clc,close all,clear all, format longG,format compact
@@ -113,8 +109,10 @@ lb([1:4,16,19,21,25,32:37,41:42,44:47,51:52])=0.016;
 
 % list=list([5,25,51],:);
 % lb=lb([5,25,51]);
-list=list([15:end],:);
-lb=lb([15:end]);
+% list=list([15:end],:);
+% lb=lb([15:end]);
+list=list([5],:);
+lb=lb([5]);
 
 
 %% Setup PlayIn PowerWorld Case for PMU Data

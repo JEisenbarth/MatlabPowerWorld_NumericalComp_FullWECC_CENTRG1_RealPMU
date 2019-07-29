@@ -96,53 +96,53 @@ for x=1:length(theta)
 end
 
 %% Plot Check
-figure
-subplot(3,1,1)
-hold on
-plot(data_event.t1,data_event.P,'LineWidth',1,'DisplayName','Event')
-plot(data.Data(:,1),data.Data(:,ndxP),'LineWidth',1,'DisplayName','PlayIn')
-hold off
-title('P Plot')
-legend();
-grid
+% figure
+% subplot(3,1,1)
+% hold on
+% plot(data_event.t1,data_event.P,'LineWidth',1,'DisplayName','Event')
+% plot(data.Data(:,1),data.Data(:,ndxP),'LineWidth',1,'DisplayName','PlayIn')
+% hold off
+% title('P Plot')
+% legend();
+% grid
+% 
+% subplot(3,1,2)
+% hold on
+% plot(data_event.t1,data_event.Q,'LineWidth',1,'DisplayName','Event')
+% plot(data.Data(:,1),data.Data(:,ndxQ),'LineWidth',1,'DisplayName','PlayIn')
+% hold off
+% title('Q Plot')
+% legend();
+% grid
+% 
+% subplot(3,1,3)
+% hold on
 
-subplot(3,1,2)
-hold on
-plot(data_event.t1,data_event.Q,'LineWidth',1,'DisplayName','Event')
-plot(data.Data(:,1),data.Data(:,ndxQ),'LineWidth',1,'DisplayName','PlayIn')
-hold off
-title('Q Plot')
-legend();
-grid
-
-subplot(3,1,3)
-hold on
-plot(residual,'DisplayName',['Parameter=',num2str(theta)])
-plot(residual,'DisplayName',['Parameter='])
-hold off
-title('Residual')
-legend();
-
-ndxV=PWFind(data,'Bus ',' 47741 ','V pu');
-figure
-subplot(3,1,1)
-hold on
-plot(data_event.t1,data_event.v1,'LineWidth',1,'DisplayName','Event')
-plot(data.Data(:,1),data.Data(:,ndxV),'LineWidth',1,'DisplayName','PlayIn')
-hold off
-title('V Plot')
-legend();
-grid
-
-ndxF=PWFind(data,'Bus ',' 47741 ','Frequency in PU');
-subplot(3,1,2)
-hold on
-plot(data_event.t1,data_event.f1/60,'LineWidth',1,'DisplayName','Event')
-plot(data.Data(:,1),data.Data(:,ndxF),'LineWidth',1,'DisplayName','PlayIn')
-hold off
-title('F Plot')
-legend();
-grid
+% plot(residual,'DisplayName',['Parameter='])
+% hold off
+% title('Residual')
+% legend();
+% 
+% ndxV=PWFind(data,'Bus ',' 47741 ','V pu');
+% figure
+% subplot(3,1,1)
+% hold on
+% plot(data_event.t1,data_event.v1,'LineWidth',1,'DisplayName','Event')
+% plot(data.Data(:,1),data.Data(:,ndxV),'LineWidth',1,'DisplayName','PlayIn')
+% hold off
+% title('V Plot')
+% legend();
+% grid
+% 
+% ndxF=PWFind(data,'Bus ',' 47741 ','Frequency in PU');
+% subplot(3,1,2)
+% hold on
+% plot(data_event.t1,data_event.f1/60,'LineWidth',1,'DisplayName','Event')
+% plot(data.Data(:,1),data.Data(:,ndxF),'LineWidth',1,'DisplayName','PlayIn')
+% hold off
+% title('F Plot')
+% legend();
+% grid
 % 
 % ndxVang=PWFind(data,'Bus ',' 47741 ','V angle No shift');
 % subplot(3,1,3)

@@ -1,11 +1,7 @@
-% Jacob Eisenbarth, May 2019
+% Jacob Eisenbarth, July 2019
 % This script will be used to run multiple different PowerWorld cases within
-% Matlab. First, the script writes a PSLF .dyd file from Matlab using a
-% series of functions. Next,it will start an EPCL code which will create a
-% channel file. Finally, the channel file will be read in then
-% stored as a structure which can be saved as a .mat file. Included into this
-% code is the addition of changing individual parameters to MINIMIZE THE COST
-% Function then continuing the simulation in PSLF.
+% Matlab. First, the script writes a  .dyd file from Matlab using a
+% series of functions. NEED to finish Description.....
 
 %% Initialize Matlab
 clc,close all,clear all, format longG,format compact
@@ -103,23 +99,20 @@ index=struct('genrou',index_genrou,'exac8b',index_exac8b,'pss2a',index_pss2a);
 clear index_genrou index_exac8b index_oel1 index_pss2a index_hygovr
 
 %% Parameter List to be Ran in Single Parameter Fitting
-list=[ones(length(index.genrou),1),[1:length(index.genrou)]';...
-    2*ones(length(index.exac8b),1),[1:length(index.exac8b)]';...
-    3*ones(length(index.pss2a),1),[1:length(index.pss2a)]';];
+% list=[ones(length(index.genrou),1),[1:length(index.genrou)]';...
+%     2*ones(length(index.exac8b),1),[1:length(index.exac8b)]';...
+%     3*ones(length(index.pss2a),1),[1:length(index.pss2a)]';];
 
 %Setup Lower Bound Vector for Timeconstants >4*Timestep
-lb=-Inf*ones(size(list,1),1);
-lb([1:4,16,19,21,25,32:37,41:42,44:47,51:52])=0.016;
+% lb=-Inf*ones(size(list,1),1);
+% lb([1:4,16,19,21,25,32:37,41:42,44:47,51:52])=0.016;
 
-% list=list([5,25,51],:);
-% lb=lb([5,25,51]);
-list=list([15:end],:);
-lb=lb([15:end]);
+
 
 
 %% Setup PlayIn PowerWorld Case for PMU Data
 %Load datacsv
-load(['D:\Users\JEisenbarth\Desktop\PowerWorld Files\CENTRG1 Real PMU Data\CENTRG1_CSV_Event_20400to20420.mat']);
+load(['D:\Users\JEisenbarth\Desktop\PowerWorld Files\CENTRG1 Real PMU Data\CENTRG1_CSV_Event_5100to5120.mat']);
 
 %File Names to Be Used In Script
 filename_SetupAux=[pwd,'\SetupAux.aux'];
@@ -135,7 +128,7 @@ Qpmu=datacsv.Q(1);
 Vpmu=datacsv.v1(1);
 SetupCase_CENTRG1(filename_SetupAux,filename_PlayInCase,Ppmu,Qpmu,Vpmu,SimAuto)
 
-% list=1;
+list=1;
 for k=1:size(list,1)
     numericalsims=1;
     for x=1:numericalsims
@@ -145,7 +138,7 @@ for k=1:size(list,1)
         t1=datacsv.t1;
         v1=datacsv.v1;
         f1=datacsv.f1;
-         
+        
         %%ADD Filtered Measurement Noise to V and F
         noisemultiplier=0;
         vnom=0.001;
@@ -167,32 +160,34 @@ for k=1:size(list,1)
         %         data_PlayInAux(k,x).f1=f1;
         
         
-%                 %%Filter Plot Check
-%                 figure
-%                 subplot(2,1,1)
-%                 plot(t1,v1,t1,v1-vmeasnoise)
-%                 legend('Added Measurement Noise','Original')
-%                 title('CENTR G1 Event 3: Voltage')
-%                 grid
-%                 xlim([0,20])
-%         
-%         
-%                 subplot(2,1,2)
-%                 plot(t1,(f1),t1,f1-fmeasnoise)
-%         
-%                 legend('Added Measurement Noise','Original')
-%                 title('CENTR G1 Event 3: Frequency')
-%                 grid
-%                 xlim([0,20])
-%         
+        %                 %%Filter Plot Check
+        %                 figure
+        %                 subplot(2,1,1)
+        %                 plot(t1,v1,t1,v1-vmeasnoise)
+        %                 legend('Added Measurement Noise','Original')
+        %                 title('CENTR G1 Event 3: Voltage')
+        %                 grid
+        %                 xlim([0,20])
+        %
+        %
+        %                 subplot(2,1,2)
+        %                 plot(t1,(f1),t1,f1-fmeasnoise)
+        %
+        %                 legend('Added Measurement Noise','Original')
+        %                 title('CENTR G1 Event 3: Frequency')
+        %                 grid
+        %                 xlim([0,20])
+        %
         
         %% Setup to Run to Minimize Cost Function
         %Setup Column Vector of Parameter to Adjust
-        %         theta_indicies=[ones(length(index.genrou),1),[1:length(index.genrou)]';...
-        %             2*ones(length(index.exac8b),1),[1:length(index.exac8b)]';...
-        %             3*ones(length(index.pss2a),1),[1:length(index.pss2a)]';];
+        theta_indicies=[ones(length(index.genrou),1),[1:length(index.genrou)]';...
+            2*ones(length(index.exac8b),1),[1:length(index.exac8b)]';...
+            3*ones(length(index.pss2a),1),[1:length(index.pss2a)]';];
         
-        theta_indicies=list(k,:);
+        theta_indicies=theta_indicies([1,2,39,40,51],:);
+        
+        %         theta_indicies=list(k,:);
         
         %             theta_indicies=[1,4;1,5];    %1st column is model,2nd column is numerical parameter,3rd column is what residual vector to use 1=P 2=Q 3=P&Q
         %Ex. [1,5]->model=genrou, parameter=H, P for
@@ -213,10 +208,10 @@ for k=1:size(list,1)
         end
         
         percentnominal=abs(.01*theta);
-     
+        
         %% Run Simulation w Original theta in model
         % Run Original Simulation w/ Nominal dyd file.
-        [data_orig(k,x)] = PowerWorld_WriteDYD_Run_RealPMU(filenamedyd,genrou_original,exac8b_original,pss2a_original,SimAuto,filename_RunAux,filename_PlayInCase);
+        [data_orig(:,x)] = PowerWorld_WriteDYD_Run_RealPMU(filenamedyd,genrou_original,exac8b_original,pss2a_original,SimAuto,filename_RunAux,filename_PlayInCase);
         
         %% Run Minimizing Cost Function
         PQ_Flag=2; %When PQ_Flag is 2 then that means to use P and Q for residual calculations.
@@ -227,7 +222,7 @@ for k=1:size(list,1)
         
         residual = @(theta) residual_Jacobian_PowerWorld_RealPMU(theta,theta_indicies,index,datacsv,filenamedyd,genrou_original,exac8b_original,pss2a_original,PQ_Flag,SimAuto,percentnominal,filename_RunAux,filename_PlayInCase);
         
-        [final_theta(k,x),resnorm(k,x),residual,exitflag,output(k,x),lambda,Jacobian] = lsqnonlin(residual,theta,lb(k),[],opts);
+        [final_theta(:,x),resnorm(:,x),residual,exitflag,output(:,x),lambda,Jacobian] = lsqnonlin(residual,theta,[],[],opts);
         
         x
         
@@ -235,11 +230,11 @@ for k=1:size(list,1)
         %Put thetas into model
         for m=1:size(theta_indicies,1)
             if theta_indicies(m,1)==1
-                genrou(index.genrou(theta_indicies(m,2)))=final_theta(k,m);
+                genrou(index.genrou(theta_indicies(m,2)))=final_theta(m,1);
             elseif theta_indicies(m,1)==2
-                exac8b(index.exac8b(theta_indicies(m,2)))=final_theta(k,m);
+                exac8b(index.exac8b(theta_indicies(m,2)))=final_theta(m);
             elseif theta_indicies(m,1)==3
-                pss2a(index.pss2a(theta_indicies(m,2)))=final_theta(k,m);
+                pss2a(index.pss2a(theta_indicies(m,2)))=final_theta(m);
             end
         end
         %Run Simulation w final theta in model
