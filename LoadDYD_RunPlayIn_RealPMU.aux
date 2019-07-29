@@ -1,0 +1,14 @@
+SCRIPT LoadDYD_RunPlayIn
+{
+//Load Case
+OpenCase("CENTRG1_PlayIn_RealPMU.PWB",PWB);
+//Enter Edit Mode
+EnterMode(EDIT);
+//Load Dyd File
+TSLoadGE("CENTRG1_PlayIn.dyd", NO, YES);
+//Enter Run Mode
+EnterMode(RUN);
+//Solve Dynamic Simulation
+TSSolveAll;
+}
+

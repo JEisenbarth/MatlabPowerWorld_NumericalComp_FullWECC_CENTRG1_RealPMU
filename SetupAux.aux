@@ -1,0 +1,28 @@
+SCRIPT
+{
+OpenCase("CENTRG1_PlayIn_RealPMU.PWB",PWB);
+EnterMode(EDIT);
+}
+
+DATA (GEN, [BusNum,BusName,GenID,VoltSet])
+{
+47741 "CENTR P1" 1 1.08257
+}
+
+DATA (Bus, [BusNum,BusName,BusPUVolt,BusAngle])
+{
+47741 "CENTR P1" 1.08256563797 0
+}
+
+DATA (GEN, [BusNum,BusName,GenID,VoltSet,GenMW])
+{
+47740 "CENTR G1" 1 1.00672613928 646.868119687
+}
+
+SCRIPT
+{
+EnterMode(RUN);
+SolvePowerFlow (RECTNEWT,"","");
+SaveCase("CENTRG1_PlayIn_RealPMU.PWB");
+}
+
