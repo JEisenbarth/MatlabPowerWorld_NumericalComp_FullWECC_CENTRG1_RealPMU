@@ -37,6 +37,10 @@ fprintf(fileID,['TSLoadGE("CENTRG1_PlayIn.dyd", NO, YES);\n']);
 fprintf(fileID,['//Enter Run Mode\n']);
 fprintf(fileID,['EnterMode(RUN);\n']);
 
+% fprintf(fileID,['//AutoCorrect\n']);
+% fprintf(fileID,['TSAutoCorrect;\n']);
+% 'Auto Correct On'
+
 fprintf(fileID,['//Solve Dynamic Simulation\n']);
 fprintf(fileID,['TSSolveAll;\n']);
 
