@@ -24,9 +24,12 @@ fclose(fileID);     %Closes file.
 fileID = fopen(filename_RunAux,'w');
 fprintf(fileID,['SCRIPT LoadDYD_RunPlayIn\n']);
 fprintf(fileID,['{\n']);
-fprintf(fileID,['//Load Case\n']);
+fprintf(fileID,['//Clear Log\n']);
+fprintf(fileID,['LogClear;\n'],filename_PlayInCase);
 
+fprintf(fileID,['//Load Case\n']);
 fprintf(fileID,['OpenCase("%s",PWB);\n'],filename_PlayInCase);
+
 fprintf(fileID,['//Enter Edit Mode\n']);
 fprintf(fileID,['EnterMode(EDIT);\n']);
 
@@ -43,6 +46,9 @@ fprintf(fileID,['EnterMode(RUN);\n']);
 
 fprintf(fileID,['//Solve Dynamic Simulation\n']);
 fprintf(fileID,['TSSolveAll;\n']);
+
+fprintf(fileID,['//Save to Log\n']);
+fprintf(fileID,['LogSave("Log_PowerWorld.txt");\n']);
 
 fprintf(fileID,['}\n\n']);
 fclose(fileID);
